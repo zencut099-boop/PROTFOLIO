@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apex Post | Vision Refined. Stories Mastered.</title>
+<!-- Load Tailwind CSS via CDN and configure custom colors -->
+<script src="https://www.google.com/search?q=https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+theme: {
+extend: {
+colors: {
+'dark-bg': '#0d0d0d',
+'neon-teal': '#00FFFF',
+'neon-magenta': '#FF00FF',
+'accent-dark': '#008888', // Darker shade of teal for hover/focus
+},
+fontFamily: {
+// Keeping Inter but defining a robust professional stack
+sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif'],
+}
+}
+}
+}
+</script>
+<!-- Load Three.js Library -->
+<script src="https://www.google.com/search?q=https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+    /* Base styles for the dark mode theme */
+    body {
+        background-color: #0d0d0d;
+        font-family: 'Inter', sans-serif;
+        margin: 0;
+        overscroll-behavior: none; /* Prevents bounce scroll on mobile */
+    }
+    /* Style for the Three.js Canvas */
+    #three-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0; /* Ensure it is behind the content */
+    }
+    /* Styles for the main content layer */
+    #content-wrapper {
+        position: relative;
+        z-index: 10;
+        color: white;
+        min-height: 200vh; /* Make content scrollable to show scroll interaction */
+    }
+    /* Neon effect for the logo and headers */
+    .neon-text {
+        /* Text glow removed as requested for a cleaner, more professional look */
+        text-shadow: none; 
+    }
+    .neon-magenta-btn {
+        box-shadow: 0 0 15px rgba(255, 0, 255, 0.7);
+        transition: all 0.3s ease;
+    }
+    .neon-magenta-btn:hover {
+        box-shadow: 0 0 25px rgba(255, 0, 255, 1), 0 0 50px rgba(255, 0, 255, 0.5);
+        transform: scale(1.05);
+    }
+    /* Scroll indicator style */
+    #scroll-indicator {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        animation: bounce 2s infinite;
+        pointer-events: none;
+        z-index: 20;
+    }
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-10px);
+        }
+        60% {
+            transform: translateY(-5px);
+        }
+    }
+    /* Custom scrollbar for aesthetics (Webkit) */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #00FFFF;
+        border-radius: 4px;
+    }
+</style>
+
+
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+
+<div id="loading-screen" class="fixed inset-0 bg-dark-bg z-50 flex items-center justify-center transition-opacity duration-700">
+<p class="text-neon-teal text-xl md:text-2xl tracking-widest uppercase animate-pulse">
+Loading 3D Scene...
+</p>
+</div>
+
+<!-- THREE.JS CANVAS CONTAINER -->
+
+<canvas id="three-canvas"></canvas>
+
+<!-- MAIN CONTENT WRAPPER -->
+
+<div id="content-wrapper" class="relative">
+
+<!-- Scroll Indicator -->
+<div id="scroll-indicator" class="text-neon-teal text-lg">
+    SCROLL DOWN
+    <div class="text-center mt-1">↓</div>
+</div>
+
+<!-- 1. HEADER (Navigation) -->
+<header class="sticky top-0 z-40 bg-[#0d0d0d]/80 backdrop-blur-sm shadow-xl p-4 md:p-6">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="#hero" class="text-3xl font-extrabold tracking-tight text-neon-teal neon-text">
+            APEX POST
+        </a>
+        <nav class="hidden md:flex space-x-8 text-lg font-medium">
+            <a href="#services" class="hover:text-neon-teal transition duration-300">Services</a>
+            <a href="#portfolio" class="hover:text-neon-teal transition duration-300">Portfolio</a>
+            <a href="#contact" class="hover:text-neon-teal transition duration-300">Contact</a>
+        </nav>
+        <!-- Mobile Menu Placeholder -->
+        <button class="md:hidden text-neon-teal focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+        </button>
+    </div>
+</header>
+
+<!-- 2. HERO SECTION -->
+<section id="hero" class="h-[100vh] flex items-center justify-center text-center p-4">
+    <div class="max-w-4xl space-y-6">
+        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase leading-tight tracking-tighter text-white">
+            <span class="text-neon-teal neon-text block">VISION REFINED.</span>
+            STORIES MASTERED.
+        </h1>
+        <p class="text-lg md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+            Premium post-production, color grading, and motion graphics for film and digital media.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <a href="#contact" class="py-3 px-8 text-lg font-bold bg-neon-teal text-dark-bg rounded-xl shadow-xl hover:bg-white transition duration-300">
+                Start Your Project
+            </a>
+            <a href="#portfolio" class="py-3 px-8 text-lg font-bold border-2 border-neon-teal text-neon-teal rounded-xl hover:bg-neon-teal hover:text-dark-bg transition duration-300">
+                View Our Portfolio →
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 3. SERVICES SECTION -->
+<section id="services" class="py-20 md:py-32 bg-dark-bg/90">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-16 text-white tracking-tight">Our Core Services</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Service Card 1 -->
+            <div class="p-8 bg-[#1a1a1a] rounded-xl shadow-2xl border border-transparent hover:border-neon-teal transition duration-500 transform hover:scale-[1.02]">
+                <div class="text-neon-teal mb-4">
+                    <!-- SVG Icon: Scissors/Timeline -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12M12 12l3.88 3.88M12 12V3M12 12h9"/><circle cx="6" cy="18" r="3"/><path d="M20 4l-4 4"/></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Precision Editing</h3>
+                <p class="text-gray-400">High-end editorial services for narrative, documentary, and commercial content. We sculpt your raw footage into compelling stories.</p>
+            </div>
+            <!-- Service Card 2 -->
+            <div class="p-8 bg-[#1a1a1a] rounded-xl shadow-2xl border border-transparent hover:border-neon-teal transition duration-500 transform hover:scale-[1.02]">
+                <div class="text-neon-teal mb-4">
+                    <!-- SVG Icon: Color Palette/Drop -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 20.7a2.5 2.5 0 0 1-3.3-3.3l1.8-1.8a2.1 2.1 0 0 0 0-3l-2.9-2.9a2.1 2.1 0 0 0-3 0l-1.8 1.8a2.5 2.5 0 0 1-3.3-3.3l4.5-4.5a2.1 2.1 0 0 0 3 0l6.4 6.4a2.1 2.1 0 0 0 0-3l-4.5-4.5a2.5 2.5 0 0 1 3.3-3.3l4.5 4.5a2.1 2.1 0 0 0 0 3l-6.4 6.4a2.1 2.1 0 0 0 3 0l1.8-1.8a2.5 2.5 0 0 1 3.3 3.3l-4.5 4.5Z"/></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Cinematic Color Grading</h3>
+                <p class="text-gray-400">Industry-standard color correction and artistic grading to define your film's visual identity, mood, and tone.</p>
+            </div>
+            <!-- Service Card 3 -->
+            <div class="p-8 bg-[#1a1a1a] rounded-xl shadow-2xl border border-transparent hover:border-neon-teal transition duration-500 transform hover:scale-[1.02]">
+                <div class="text-neon-teal mb-4">
+                    <!-- SVG Icon: Abstract Animation/Spark -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2M12 20v2M20 12h2M2 12h2M18.3 5.7l-1.4 1.4M6.1 17.9l-1.4 1.4M17.9 17.9l-1.4-1.4M6.1 6.1l-1.4-1.4"/></svg>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Motion Graphics & VFX</h3>
+                <p class="text-gray-400">Seamless visual effects, dynamic titles, and engaging 2D/3D motion design that elevate your brand.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. PORTFOLIO SHOWCASE -->
+<section id="portfolio" class="py-20 md:py-32">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <h2 class="text-4xl md:text-5xl font-extrabold text-center mb-16 text-white tracking-tight">Recent Work</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Project Placeholder 1 -->
+            <div id="project-1" class="group relative overflow-hidden rounded-xl shadow-2xl bg-gray-900 aspect-video flex items-center justify-center cursor-pointer border-2 border-gray-800 hover:border-neon-teal transition duration-300" onmouseover="handleProjectHover(true, 1)" onmouseout="handleProjectHover(false, 1)">
+                <p class="text-3xl font-bold text-white uppercase tracking-wider z-20">The Midnight Shift</p>
+                <div class="absolute inset-0 bg-neon-teal opacity-10 group-hover:opacity-20 transition duration-300 z-10"></div>
+            </div>
+
+            <!-- Project Placeholder 2 -->
+            <div id="project-2" class="group relative overflow-hidden rounded-xl shadow-2xl bg-gray-900 aspect-video flex items-center justify-center cursor-pointer border-2 border-gray-800 hover:border-neon-teal transition duration-300" onmouseover="handleProjectHover(true, 2)" onmouseout="handleProjectHover(false, 2)">
+                <p class="text-3xl font-bold text-white uppercase tracking-wider z-20">Corporate Rebirth</p>
+                <div class="absolute inset-0 bg-neon-teal opacity-10 group-hover:opacity-20 transition duration-300 z-10"></div>
+            </div>
+
+            <!-- Project Placeholder 3 -->
+            <div id="project-3" class="group relative overflow-hidden rounded-xl shadow-2xl bg-gray-900 aspect-video flex items-center justify-center cursor-pointer border-2 border-gray-800 hover:border-neon-teal transition duration-300" onmouseover="handleProjectHover(true, 3)" onmouseout="handleProjectHover(false, 3)">
+                <p class="text-3xl font-bold text-white uppercase tracking-wider z-20">Fusion Energy Ad</p>
+                <div class="absolute inset-0 bg-neon-teal opacity-10 group-hover:opacity-20 transition duration-300 z-10"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. CALL TO ACTION (CTA) / FOOTER -->
+<section id="contact" class="py-20 md:py-32 bg-dark-bg/90">
+    <div class="container mx-auto px-4 max-w-lg text-center">
+        <h2 class="text-4xl md:text-5xl font-extrabold mb-10 text-white tracking-tight">Ready to Transform Your Footage?</h2>
+        <form action="#" class="space-y-6 text-left p-8 bg-[#1a1a1a] rounded-xl shadow-3xl">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-neon-magenta focus:border-neon-magenta transition duration-300">
+            </div>
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-neon-magenta focus:border-neon-magenta transition duration-300">
+            </div>
+            <!-- LLM INTEGRATION: PROJECT BRIEF REFINER -->
+            <div>
+                <div class="flex justify-between items-end mb-2">
+                    <label for="project-details" class="block text-sm font-medium text-gray-400">Project Details</label>
+                    <!-- Button to call the Gemini API -->
+                    <button type="button" id="refine-brief-btn" onclick="refineBrief()" class="flex items-center text-sm font-medium px-3 py-1 bg-neon-teal text-dark-bg rounded-full hover:bg-white transition duration-300">
+                        ✨ Refine Project Brief
+                    </button>
+                </div>
+                <textarea id="project-details" name="project-details" rows="4" placeholder="E.g., 'Need a trailer for a sci-fi documentary.' Then click the '✨ Refine Project Brief' button above!" class="w-full p-3 bg-dark-bg border border-gray-700 rounded-lg text-white focus:ring-neon-magenta focus:border-neon-magenta transition duration-300"></textarea>
+                <!-- Status display for loading/errors -->
+                <div id="brief-status" class="text-sm mt-2 text-center text-neon-teal hidden"></div>
+            </div>
+            <!-- END LLM INTEGRATION -->
+            <button type="submit" class="w-full py-3 text-lg font-bold bg-neon-magenta text-dark-bg rounded-xl shadow-2xl neon-magenta-btn">
+                Send Inquiry
+            </button>
+        </form>
+    </div>
+</section>
+
+<footer class="py-8 border-t border-gray-800 bg-[#0d0d0d] text-center text-gray-500">
+    <p>&copy; 2025 Apex Post. All Rights Reserved.</p>
+    <div class="flex justify-center space-x-4 mt-4">
+        <!-- Social Icons (Placeholder SVGs) -->
+        <a href="#" class="text-gray-400 hover:text-neon-teal transition duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.8 9.9 2 3.6c.7 1.2 1.6 2.3 2.7 3.2C7 6.3 11 5 12 5s5 1 8 5c-1 0-3 1-5 1"/></svg>
+        </a>
+        <a href="#" class="text-gray-400 hover:text-neon-teal transition duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+    </div>
+</footer>
+
+
+</div>
+
+<!-- JAVASCRIPT FOR THREE.JS & INTERACTIONS -->
+
+<script>
+// --- GEMINI API Configuration & Utilities ---
+const API_KEY = ""; // Placeholder, will be provided by environment
+const API_URL = "https://www.google.com/search?q=https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+const MAX_RETRIES = 5;
+const INITIAL_BACKOFF = 1000;
+
+/**
+ * Utility function to perform a fetch request with exponential backoff.
+ */
+async function geminiFetch(payload, retries = 0) {
+    try {
+        const response = await fetch(`${API_URL}?key=${API_KEY}`, {
+            method: &#39;POST&#39;,
+            headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.status === 429 &amp;&amp; retries &lt; MAX_RETRIES) {
+            const delay = INITIAL_BACKOFF * Math.pow(2, retries) + Math.random() * INITIAL_BACKOFF;
+            console.warn(`Rate limit hit. Retrying in ${delay / 1000}s...`);
+            await new Promise(resolve =&gt; setTimeout(resolve, delay));
+            return geminiFetch(payload, retries + 1);
+        }
+
+        if (!response.ok) {
+            const errorBody = await response.json();
+            throw new Error(`API call failed with status ${response.status}: ${JSON.stringify(errorBody)}`);
+        }
+
+        const result = await response.json();
+        return result.candidates?.[0]?.content?.parts?.[0]?.text || &quot;Failed to generate content.&quot;;
+
+    } catch (error) {
+        console.error(&quot;Gemini API Error:&quot;, error);
+        return `Error: ${error.message}`;
+    }
+}
+
+/**
+ * Calls the Gemini API to expand a basic project idea into a professional brief.
+ */
+async function refineBrief() {
+    const textarea = document.getElementById(&#39;project-details&#39;);
+    const statusDiv = document.getElementById(&#39;brief-status&#39;);
+    const button = document.getElementById(&#39;refine-brief-btn&#39;);
+    const initialText = textarea.value.trim();
+
+    statusDiv.classList.remove(&#39;hidden&#39;);
+    
+    if (initialText.length &lt; 20) {
+        statusDiv.textContent = &quot;Please enter a starting idea (at least 20 characters) first.&quot;;
+        statusDiv.classList.remove(&#39;text-neon-teal&#39;);
+        statusDiv.classList.add(&#39;text-neon-magenta&#39;);
+        return;
+    }
+
+    statusDiv.textContent = &quot;Generating detailed brief... (This may take a moment)&quot;;
+    statusDiv.classList.remove(&#39;text-neon-magenta&#39;);
+    statusDiv.classList.add(&#39;text-neon-teal&#39;);
+    
+    // Disable button during generation
+    button.disabled = true;
+    button.classList.add(&#39;opacity-50&#39;, &#39;cursor-not-allowed&#39;);
+
+    const systemPrompt = `You are an expert Creative Producer for a high-end post-production studio called &#39;Apex Post&#39;. A potential client has provided a rough project idea. Your task is to expand this idea into a professional, structured, and detailed project brief.
+    
+    The output MUST be in Markdown format using bullet points and clear headings. Do NOT include any conversational introduction or sign-off.
+
+    Structure the output as follows, filling in imaginative but professional details based on the client&#39;s input:
+
+    ## Project Title:
+    [A catchy, professional title]
+
+    ## Overview &amp; Goal:
+    [What is the project and what is its main objective?]
+
+    ## Target Audience &amp; Tone:
+    [Who is the video for? Describe the desired visual tone (e.g., cinematic, punchy, minimalist, dark &amp; moody).]
+
+    ## Key Deliverables:
+    - [e.g., One 60-second primary spot]
+    - [e.g., Two 15-second cut-downs for social media]
+    - [e.g., Final files delivered in 4K ProRes and H.264]
+
+    ## Post-Production Requirements:
+    - **Editing:** [Specific editing notes, pace, style]
+    - **Color:** [Specific color grading style (e.g., desaturated look, vibrant corporate colors, film grain)]
+    - **VFX/Motion:** [Required motion graphics, text overlays, or specific visual effects]
+
+    ## Ideal Timeline:
+    [Suggest a realistic, ambitious timeline for post-production based on the complexity described.]
+    `;
+
+    const payload = {
+        contents: [{ parts: [{ text: `Raw Project Idea: ${initialText}` }] }],
+        systemInstruction: { parts: [{ text: systemPrompt }] },
+    };
+
+    const generatedText = await geminiFetch(payload);
+    
+    // Re-enable button
+    button.disabled = false;
+    button.classList.remove(&#39;opacity-50&#39;, &#39;cursor-not-allowed&#39;);
+
+    if (generatedText.startsWith(&quot;Error:&quot;)) {
+        statusDiv.textContent = generatedText;
+        statusDiv.classList.remove(&#39;text-neon-teal&#39;);
+        statusDiv.classList.add(&#39;text-neon-magenta&#39;);
+        return;
+    }
+
+    // Update the textarea with the refined brief
+    textarea.value = generatedText;
+    statusDiv.textContent = &quot;Brief successfully refined! Review and submit below.&quot;;
+    statusDiv.classList.remove(&#39;text-neon-magenta&#39;);
+    statusDiv.classList.add(&#39;text-neon-teal&#39;);
+}
+
+// --- Global Configuration (Three.js continues below) ---
+let camera, scene, renderer, mouseX = 0, mouseY = 0, windowHalfX, windowHalfY;
+let particles, floatingElements = [];
+let isHovering = false; // Flag for portfolio hover effect
+
+const ACCENT_COLOR = 0x00FFFF; // Teal
+const SECONDARY_COLOR = 0xFF00FF; // Magenta
+
+// Get the canvas element
+const canvas = document.getElementById(&#39;three-canvas&#39;);
+
+/**
+ * Converts a hex color string (e.g., #00FFFF) to a Three.js hex number (0x00FFFF).
+ * @param {string} hex - The hex color string.
+ * @returns {number} The Three.js hex color.
+ */
+function hexToNum(hex) {
+    return parseInt(hex.replace(&#39;#&#39;, &#39;0x&#39;), 16);
+}
+
+/**
+ * Initializes the Three.js scene, camera, renderer, and objects.
+ */
+function init() {
+    const loadingScreen = document.getElementById(&#39;loading-screen&#39;);
+    loadingScreen.style.opacity = &#39;0&#39;;
+    setTimeout(() =&gt; loadingScreen.style.display = &#39;none&#39;, 700);
+
+    // --- Setup Basics ---
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    windowHalfX = width / 2;
+    windowHalfY = height / 2;
+
+    camera = new THREE.PerspectiveCamera(70, width / height, 1, 1000);
+    camera.position.z = 20;
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(hexToNum(&#39;#0d0d0d&#39;));
+    
+    // Enable better shading for PBR materials
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(width, height);
+    // Add tone mapping for professional color rendering
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.2; 
+
+    // --- Lighting ---
+    // 1. Soft Ambient Light (for overall brightness)
+    const ambientLight = new THREE.AmbientLight(0x404040, 1.5); 
+    scene.add(ambientLight);
+    
+    // 2. Directional Light (for sharp professional highlights)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 3);
+    directionalLight.position.set(10, 15, 10).normalize();
+    scene.add(directionalLight);
+
+    // --- 3D Scene Components ---
+
+    // 1. Particle Field (Subtle Background Grid/Mesh)
+    const particleCount = 10000;
+    const positions = new Float32Array(particleCount * 3);
+    const particleGeometry = new THREE.BufferGeometry();
+
+    for (let i = 0; i &lt; particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 400; // X
+        positions[i * 3 + 1] = (Math.random() - 0.5) * 400; // Y
+        positions[i * 3 + 2] = (Math.random() - 0.5) * 400; // Z
+    }
+
+    particleGeometry.setAttribute(&#39;position&#39;, new THREE.BufferAttribute(positions, 3));
+    
+    const particleMaterial = new THREE.PointsMaterial({
+        color: ACCENT_COLOR,
+        size: 0.15,
+        transparent: true,
+        opacity: 0.3,
+        blending: THREE.AdditiveBlending
+    });
+
+    particles = new THREE.Points(particleGeometry, particleMaterial);
+    scene.add(particles);
+
+    // 2. Floating Glowing Geometric Primitives (Primary Elements)
+    // Using TorusKnot for a more complex and deliberate high-tech look
+    const geometry = new THREE.TorusKnotGeometry(3, 0.8, 150, 20); 
+    
+    // Using MeshStandardMaterial for PBR (Physically Based Rendering) for a professional metallic shine
+    const material = new THREE.MeshStandardMaterial({
+        color: ACCENT_COLOR,
+        metalness: 0.95,      // Very high metalness for polished look
+        roughness: 0.15,      // Low roughness for a smooth, reflective surface
+        emissive: ACCENT_COLOR,
+        emissiveIntensity: 0.2, // Subtle glow
+        transparent: true,
+        opacity: 0.8
+    });
+
+    // Add 3 main floating elements
+    const positions3D = [
+        { x: -10, y: 5, z: -10 },
+        { x: 10, y: -5, z: -20 },
+        { x: 0, y: 0, z: -35 }
+    ];
+
+    positions3D.forEach((pos, index) =&gt; {
+        const mesh = new THREE.Mesh(geometry, material.clone());
+        mesh.position.set(pos.x, pos.y, pos.z);
+        mesh.scale.setScalar(1.5 - index * 0.3); // Vary size
+
+        // Add a stronger point light inside the object for a core glow effect
+        const lightColor = index % 2 === 0 ? ACCENT_COLOR : SECONDARY_COLOR;
+        const light = new THREE.PointLight(lightColor, 5, 20);
+        mesh.add(light);
+        
+        scene.add(mesh);
+        floatingElements.push({ mesh, light, speed: Math.random() * 0.005 + 0.002, axis: new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize() });
+    });
+    
+    // --- Event Listeners ---
+    window.addEventListener(&#39;resize&#39;, onWindowResize, false);
+    document.addEventListener(&#39;mousemove&#39;, onDocumentMouseMove, false);
+    document.addEventListener(&#39;scroll&#39;, onDocumentScroll, false);
+    
+    // Check for device orientation for mobile interaction
+    if (window.DeviceOrientationEvent) {
+        window.addEventListener(&#39;deviceorientation&#39;, onDeviceOrientation, false);
+    } else {
+         // Show scroll indicator if no gyro available on mobile
+         document.getElementById(&#39;scroll-indicator&#39;).style.display = &#39;block&#39;;
+    }
+}
+
+// --- Interaction Handlers ---
+
+function onWindowResize() {
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+    windowHalfX = width / 2;
+    windowHalfY = height / 2;
+    
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+}
+
+function onDocumentMouseMove(event) {
+    mouseX = (event.clientX - windowHalfX) * 0.05;
+    mouseY = (event.clientY - windowHalfY) * 0.05;
+}
+
+function onDeviceOrientation(event) {
+    // Simple mapping of device tilt to mouse position
+    // Only if not desktop size (assuming small screen means mobile)
+    if (window.innerWidth &lt; 768) {
+        const beta = event.beta; // X-axis (front to back)
+        const gamma = event.gamma; // Y-axis (side to side)
+
+        // Adjust scaling factors as needed for sensitivity
+        mouseX = -gamma * 0.5;
+        mouseY = -beta * 0.5;
+    }
+}
+
+function onDocumentScroll() {
+    const scrollPosition = window.scrollY;
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    const scrollProgress = scrollPosition / maxScroll; // 0 to 1
+
+    // 1. Camera Angle/Position Shift (Moving Through Space)
+    // Zoom in slightly (z-axis movement) and adjust look-at point
+    camera.position.z = 20 - (scrollProgress * 15);
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    // 2. Depth of Field / FOV (Simulated by FOV change)
+    camera.fov = 70 - (scrollProgress * 20); // FOV from 70 down to 50
+    camera.updateProjectionMatrix();
+
+    // Hide scroll indicator after initial scroll
+    const indicator = document.getElementById(&#39;scroll-indicator&#39;);
+    if (scrollPosition &gt; 100 &amp;&amp; indicator.style.display !== &#39;none&#39;) {
+        indicator.style.display = &#39;none&#39;;
+    }
+}
+
+function handleProjectHover(isOver, projectId) {
+    isHovering = isOver;
+
+    // Portfolio Hover Interaction: Trigger a change in the 3D background
+    if (isOver) {
+        particles.material.size = 0.5; // Make particles bigger/denser
+        particles.material.opacity = 0.7;
+        particles.material.color.set(SECONDARY_COLOR); // Change particle color to Magenta
+    } else {
+        particles.material.size = 0.15; // Reset
+        particles.material.opacity = 0.3; // Reset
+        particles.material.color.set(ACCENT_COLOR); // Reset to Teal
+    }
+    particles.material.needsUpdate = true;
+}
+
+// --- Animation Loop ---
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    const time = Date.now() * 0.0005;
+
+    // 1. Particle Movement
+    particles.rotation.y = time * 0.05;
+    particles.rotation.x = time * 0.02;
+
+    // 2. Floating Elements Movement &amp; Rotation
+    floatingElements.forEach((element, index) =&gt; {
+        const { mesh, speed, axis } = element;
+        
+        // Subtle rotation
+        // Rotate the complex Torus Knot on all three axes for a better look
+        mesh.rotation.x += speed * 2;
+        mesh.rotation.y += speed * 3;
+        mesh.rotation.z += speed * 1.5;
+        
+        // Gentle floating motion (sine wave based on time)
+        const offsetTime = time + index * 10;
+        mesh.position.y += Math.sin(offsetTime * 0.5) * 0.03;
+        mesh.position.x += Math.cos(offsetTime * 0.4) * 0.03;
+    });
+
+    // 3. Parallax Effect (Camera follow mouse)
+    // Camera position interpolation for smooth movement
+    camera.position.x += (mouseX - camera.position.x) * 0.005;
+    camera.position.y += (-mouseY - camera.position.y) * 0.005;
+
+    // Make the primary floating elements also react slightly to the mouse for depth
+    floatingElements[0].mesh.position.x += (mouseX * 0.01 - floatingElements[0].mesh.position.x) * 0.005;
+    floatingElements[0].mesh.position.y += (-mouseY * 0.01 - floatingElements[0].mesh.position.y) * 0.005;
+
+    renderer.render(scene, camera);
+}
+
+// Initialize the Three.js scene once the window is loaded
+window.onload = function() {
+    // Small delay to ensure all DOM elements are rendered before init
+    setTimeout(() =&gt; {
+        init();
+        animate();
+    }, 100); 
+};
+
+
+</script>
+
+</body>
+</html>
